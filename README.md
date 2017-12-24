@@ -63,10 +63,8 @@ automatically with the body. If a user has a use case for this, it could be done
 ```
 
 ## Browser Compatibility
-The underlying CodePen has been tested on IE11, and the latest versions of Chrome, Firefox, Safari,
-and iOS Safari.
-
-The component itself has not been tested, I plan to write a demo/test app next.
+This component has been tested on IE11, and the latest versions of Chrome (Mac and Windows,
+Firefox, Safari, and iOS Safari.
 
 ## Implementation Details
 A table that scrolls its contents without losing its header or footer is a common need, as is
