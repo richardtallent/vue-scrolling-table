@@ -18,7 +18,7 @@ For now, there is only one property:
 
 ### deadAreaColor
 This is a **string** value. The default is `#CCC`. This is the color used for the "dead area" within
-any scrolling table that isn't used for the thead/tbody contents. This dead area is possible because
+any scrolling table that isn't used for the table contents. This dead area is possible because
 the table fits its parent container, but the rows or columns may not fill the entire space. This
 property accepts any legal CSS color expression (triplets, `rgb()`, etc.).
 
