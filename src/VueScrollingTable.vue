@@ -1,8 +1,8 @@
 <template>
 	<table class="scrolling" :style="tableStyle" ref="table">
-		<slot name="thead" :style="headStyle" ref="thead"/>
-		<slot name="tbody" ref="tbody" @scroll="syncTHeadScroll"/>
-		<slot name="tfoot"/>
+		<thead name="thead" :style="headStyle" ref="thead"><slot name="thead"/></thead>
+		<tbody name="tbody" @scroll="syncTHeadScroll" ref="tbody"><slot name="tbody"/></tbody>
+		<tfoot name="tfoot" v-if="includeFooter"><slot name="tfoot"/></tfoot>
 	</table>
 </template>
 <script>
@@ -10,6 +10,7 @@ export default {
 	name: "VueScrollingTable",
 	props: {
 		deadAreaColor: { type: String, required: false, default: "#CCC" },
+		includeFooter: { type: Boolean, required: false, default: false },
 	},
 	computed: {
 		tableStyle() {
@@ -33,10 +34,15 @@ export default {
 	},
 	mounted: function() {
 		this.setColors()
+		this.syncTHeadScroll()
 	},
 	methods: {
 		syncTHeadScroll() {
-			this.$refs.thead.scrollLeft = this.$refs.tbody.scrollLeft
+			const h = this.$refs.thead
+			const l = this.$refs.tbody.scrollLeft
+			if (h.scrollLeft !== l) {
+				h.scrollLeft = l
+			}
 		},
 		setColors() {
 			const s = this.$refs.table.style
@@ -97,9 +103,16 @@ table.scrolling tbody:nth-child(3) {
 /* The one caveat to scrolling this way: a hard-set width is required. Can override in thead/tbody slot. */
 table.scrolling td,
 table.scrolling th {
+	border: 1px solid #ddd;
+
+	/* These must all be set the same in your overriding CSS */
 	width: 10em;
 	min-width: 10em;
-	border: 1px solid #ddd;
+	max-width: 10em;
+
+	/* Important in case your data is too long for your cell */
+	overflow: hidden;
+	word-wrap: break-word;
 }
 
 table.scrolling td {
