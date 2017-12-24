@@ -4,7 +4,7 @@
 
 ## Demo
 There is a live demo here:
-https://tallent.us/vue-scrolling-table-sample
+https://tallent.us/vue-scrolling-table
 
 The repo for the demo application is here:
 https://github.com/richardtallent/vue-scrolling-table-sample
