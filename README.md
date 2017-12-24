@@ -53,7 +53,7 @@ body. If a user has a use case for this, it could be done pretty easily.
   </thead>
   <tbody slot="tbody">
     <tr v-for="item in items" :key="item.id">
-	  <td v-for-"col in columns"
+	  <td v-for="col in columns"
 		:class="col.cssClasses"
 		:key="col.id">{{ item[col.id] }}</td>
     </tr>
