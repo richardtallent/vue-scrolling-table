@@ -153,3 +153,4 @@ npm run build
 | ---------- | ------- | ------------------------------------------------------------------------------------------ |
 | 2017.12.24 | 0.1.0   | First published version                                                                    |
 | 2017.12.24 | 0.1.1   | Patch based on sample app deveopment                                                       |
+| 2017.12.24 | 0.1.2   | Fix: old version went to npm                                                               |
