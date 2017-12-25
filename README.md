@@ -6,41 +6,39 @@
 There is a live demo here:
 https://tallent.us/vue-scrolling-table
 
+The demo will allow you to play with various options.
+
 The repo for the demo application is here:
 https://github.com/richardtallent/vue-scrolling-table-sample
 
-## Properties
+## Intro
 
-### deadAreaColor
-This is a **string** value. The default is `#CCC`. This is the color used for the "dead area" within
-any scrolling table that isn't used for the table contents. This dead area is possible because
-the table fits its parent container, but the rows or columns may not fill the entire space. This
-property accepts any legal CSS color expression (triplets, `rgb()`, etc.).
+I recently needed a Vue component for a data grid in a desktop application I'm building. No need for
+responsiveness--in this case, I just need one huge table that scrolls vertically and horizontally,
+like a spreadsheet. I also needed the table to fit itself neatly into a flexbox layout, taking up
+any available space.
 
-## includeFooter
-This is a **Boolean** value, the default is `false`. Set this to `true` if you are providing content
-for a `tfoot` slot, otherwise the element will not be rendered.
+"No problem, this is late 2017, we have modern browsers with CSS2 `sticky`!" Nope. Browser support
+for sticky is still buggy and incomplete, and I also needed the solution to work on IE11 to support
+outdated corporate environments.
 
-## Slots
-This is a *very* simple wrapper for an HTML table. This component is not intended to, itself be used
-as a data grid, etc., though one could be built using it. Instead, there are three slots, which are
-decorated as needed to make the scrolling happen, but otherwise the calling parent component/application
-is responsible for the **contents of** the `<thead>`, `<tbody>`, and (optional) `<tfoot>` elements
-(*i.e.*, the `<tr>`, `<td>`, and `<th>` tags). This is done using Vue's *named slots*.</p>
+I found some very nice datagrid components, but none that suported everything on my wish list:
+- Flexbox sizing
+- Horizontal and vertical scrolling body
+- Flexibility to render my `<th>` and `<td>` cells however I want (which, for me, probably means
+lots of custom renderers, many of which will probably be Vue components of their own).
+- No built-in data model (I'd rather implement sorting, paging, etc. myself)
+- English documentation (Vue has global popularity, which is awesome, but occasionally that means
+some great components are out of reach.)
 
-### thead
-Required. Use this slot to inject the `<thead>` element's contents. The component will freeze it at
-the top, and will synchronize its horizontal scrolling with `<tbody>` scroll (there may be a short
-delay).
+So, I wrote this component. It is purposefully bare-bones, only drawing the table elements and
+synchronizing the horizontal scrolling of the header and body. It doesn't render any `<tr>`, `<th>`,
+or `<td>` elements itself. Instead, your parent component/application should render those using
+named slots. This gives you complete control over how those are handled, and allows this component
+to just focus on its sole task of making the table fit its parent and allowing the body to scroll.
 
-### tbody
-Required. Use this slot to inject the `<tbody>` element's contents. The component will make it
-scrollable.
-
-### tfoot
-Optional. Use this slot if you want to inject contents for a `<tfoot>` element. The component will
-freeze it at the bottom, below the scrolled `<tbody>`. For now, this element is not scrolled
-automatically with the body. If a user has a use case for this, it could be done pretty easily.
+If you're curious, before creating the Vue component, the proof of concept was done on CodePen:
+https://codepen.io/richardtallent/pen/rpWBQK
 
 ## Example Usage
 ```HTML
@@ -62,78 +60,118 @@ automatically with the body. If a user has a use case for this, it could be done
 </vue-scrolling-table>
 ```
 
+## Properties
+
+### deadAreaColor
+This is a **string** value. The default is `#CCC`. This is the color used for the "dead area" within
+any scrolling table that isn't used for the table contents. This dead area is possible because
+the table fits its parent container, but the rows or columns may not fill the entire space. This
+property accepts any legal CSS color expression (triplets, `rgb()`, etc.).
+
+### includeFooter
+Boolean, defaults to `false`. Set this to `true` if you are providing content for a `tfoot` slot,
+otherwise the element will not be rendered.
+
+### syncHeaderScroll
+Boolean, defaults to `true`. Set to `false` if you *do not* want your header to scroll automatically
+when the user scrolls the body horizontally.
+
+### syncHeaderScroll
+Boolean, defaults to `true`. Set to `false` if you *do not* want your footer to scroll automatically
+when the user scrolls the body horizontally.
+
+### scrollHorizontal
+Boolean, defaults to `true`. Set to `false` if you *do not* want the user to be able to scroll the
+body content horizontally (any overflow will be hidden).
+
+### scrollVertical
+Boolean, defaults to `true`. Set to `false` if you *do not* want the user to be able to scroll the
+body content vertically (any overflow will be hidden).
+
+## Slots
+To render your actual rows and cells, you'll be using *named slots*. This gives you full control
+of how the table contents are rendered.
+
+### thead
+Required. Use this slot to inject the `<thead>` element's contents. The component will freeze it at
+the top, and will synchronize its horizontal scrolling with `<tbody>` scroll (there may be a short
+delay).
+
+### tbody
+Required. Use this slot to inject the `<tbody>` element's contents. The component will make it
+scrollable.
+
+### tfoot
+Optional. Use this slot if you want to inject contents for a `<tfoot>` element. The component will
+freeze it at the bottom, below the scrolled `<tbody>`. For now, this element is not scrolled
+automatically with the body. If you include this, you'll also need to set the `includeFooter` prop
+to `true` so the component knows to render the `<tfoot>` element.
+
+## Events
+A `scroll` event is emitted by this component when the user scrolls the body. This event passes
+four arguments: the `<tbody>` `scrollTop`, `scrollLeft`, `scrollHeight`, and `scrollWidth`. You
+can use this to, for example, show icons indicating that the user can scroll (useful when the
+browser doesn't display a scrollbar). Since this is fired based on the DOM `scroll` event, the
+same usual caveat applies: this is a high-frequency event, so try not to do anything complicated
+in response (if you need to do so, debounce the events and/or use `requestAnimationFrame`).
+
 ## Browser Compatibility
 This component has been tested on IE11, and the latest versions of Chrome (Mac and Windows,
 Firefox, Safari, and iOS Safari.
 
-## Implementation Details
-A table that scrolls its contents without losing its header or footer is a common need, as is
-(these days) a table that will reliably fit itself into a flexbox layout. Unfortunately, I couldn't
-find any lightweight Vue components that gave this functionality but still allowed me full freedom
-to manage the actual markup inside the table.
-
-The flexbox part of this is pretty simple and has been covered by tutorials elsewhere much better
-than I could explain it, but basically, the table is displayed using flexbox, it stretches to fill
-its container. Its `<thead>` and `<tfoot>` use flexbox to render at whatever height they need and
-no more or less, and `<tbody>` gets the remainder between them.
-
-Thus, `<tbody>`'s height and width are no longer dependent on the rows and columns, they size with
-the table itself. This allows us to set it to scroll the contents of the table body by setting
-the CSS `overflow` property.
-
-However, the use of `block` on the head and body disconnects how HTML tables usually ensure that
-the header and body rows have the same column widths and scroll horizontally in tandem.
-
-Fixing the scroll just requires tracking the user's horizontal scroll events on the body and 
-matching the resulting scroll position on the header.
-
-There's also a problem on browsers that show scrollbars: since the body is being scrolled but
-the header isn't, the portion of the body used by the scrollbar doesn't look right in the header.
-To alleviate this, we tell the `<thead>` to have a vertical scrollbar (even though it is never
-needed), then we use CSS to style the scrollbar to be the same as our the color used outside the
-table itself. There are no standard CSS properties for this, we target the browser-specific ones
-for IE and WebKit.
-
-Before creating the Vue component, the proof of concept was done on CodePen:
-https://codepen.io/richardtallent/pen/rpWBQK
-
 ## Slot Markup and Styling Requirements
-While a component could attempt to track changes to the width of each column of the header and
-body and synchronize those changes with the other, in practice it is much more difficult than
-synchronized scrolling, because there is no one reliable DOM event to listen to to capture 
-everything that could resize a `<th>` or `<td>`... it could be a result of a content change,
-CSS change, window resize, layout resize, etc. Most implementations I've seen track some events,
-but also end up polling widths on a timer just to be sure they keep everything aligned.
+An important requirement of this component is that **all `<td>` and `<th>` cells** must have a
+**specific width** set for them, either via CSS classes or style attributes. Cells can't auto-size
+based on contents because that would leave the header and body cells with different widths.
 
-So for sanity, I took the path of requiring that the calling component ensure that each header
-column's width matches the corresponding body columns width. The default CSS for the component
-sets the `width`, `min-width`, and `max-width` to `10em` to make all cells match out of the box.
-Cells are also defaulted to word-wrap if needed, even if there are no word breaks in the text,
-and they are set to, if overflow is inevitable, that the overflow is hidden. This is all key
-to having a reliable column width. You can use CSS or `style` attributes in your markup to
-customize this for any column (remember to set all three width attributes, otherwise contents
-of your cells could still resize the column width).
+While it's theoretically possible to update the header column widths to match the body and vice
+versa, it's tricky, because unlike with scrolling, there are *many events* that can result in a
+table cell resize (content change, CSS change, window resize, layout resize, etc.). Most
+implementations, including one I've done in the past, just end up polling on a timer and checking
+for columns to resize.
 
-While you cannot use auto-width or percentages and hope to keep the header and body columns
-aligned, depending on your layout, you may be able to use `vw` units and achieve a similar
-scaled effect. You can also attempt to implement your own code to track and align widths.
+You can implement this sort of column-width-tracking in your parent component if you want, but
+otherwise, you'll need to set the `width`, `min-width`, and `max-width` for all `<th>` and `<td>`
+cells to guarantee the width of all rows for a given column are the same. By default, they are
+all set to `10em`. While you can't use percentage units, depending on your layout, you can use
+`vw` units to achieve a similar scaled effect.
 
 ## Customizing the Style
 What little default styling is provided on the table is purposefully *very* basic, and is not
 scoped, so it's easy to override in your calling application. Use `table.scrolling` as the base
 selector.
 
-## Future plans
-I plan to actually use this on an upcoming project at work, one that will require very complex
-table markup and very wide tables. It will be a good torture-test for the component. However,
-the only functionality I can think of to *add* to the component at the moment would be maybe a
-property to control whether horizontal scrolling is desired -- in some cases, you may only
-want vertical scrolling, which means the scroll-tracking can be disabled, and the horizontal
-scroll bar.
+## How do I "freeze" a column?
+Here's some sample CSS for freezing the first column in a table. Unfortunately, it only works
+in Chrome and Safari as of December 2017:
 
-I'm open to other ideas, as long as they don't limit the flexibility of using slots for the
-header, body, and footer. But if someone wants to *build* a data grid component that has this
-as a dependency, I'm all for it.
+```CSS
+table.scrolling td:first-child,
+table.scrolling th:first-child {
+  position: -webkit-sticky;
+  position: sticky;
+  left:0;
+}
+```
+
+Supporting this in every browser by simulating `sticky` is theoretically possible, but much
+more difficult than the scrolling implemented by this component due to differences in row
+height, etc. that would happen if the first column is removed from the normal flow to, say,
+use absolute positioning and update the scroll position with Javascript.
+
+## Future plans
+I plan to actually use this on an upcoming project at work. It will be a good torture-test
+for the component. Some features I'm considering:
+
+- [x] Emitting events when the tbody is scrolled, so the caller can do other things.
+- [x] Optional footer scrolling.
+- [ ] Get rid of the need for the includeFooter prop.
+- [x] Option to disable/enable scrolling in either direction.
+- [ ] Avoid creating extra block on right of header if browser doesn't show scroll bars.
+
+I'm open to other ideas, as long as they don't limit the flexibility of using slots for
+the header, body, and footer. But if someone wants to *build* a data grid component that
+has this as a dependency, I'm all for it.
 
 ## Build Setup
 
@@ -152,3 +190,4 @@ npm run build
 | 2017.12.24 | 0.1.0   | First published version                                                                    |
 | 2017.12.24 | 0.1.1   | Patch based on sample app deveopment                                                       |
 | 2017.12.24 | 0.1.2   | Fix: old version went to npm                                                               |
+| 2017.12.25 | 0.2.0   | Added lots of options, updated README, fixed some display bugs when less data shown.       |
