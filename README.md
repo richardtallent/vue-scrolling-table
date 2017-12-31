@@ -117,7 +117,10 @@ in response (if you need to do so, debounce the events and/or use `requestAnimat
 
 ## Browser Compatibility
 This component has been tested on IE11, and the latest versions of Chrome (Mac and Windows,
-Firefox, Safari, and iOS Safari.
+Firefox, Safari, and iOS Safari. I've also successfully tested it with a slower, mobile Android
+tablet running the Silk browser, it works fine there as well other than some lag in the headers
+keeping up with horizontal scrolling of the body. I have no other Android devices or browsers to
+test.
 
 ## Slot Markup and Styling Requirements
 An important requirement of this component is that **all `<td>` and `<th>` cells** must have a
