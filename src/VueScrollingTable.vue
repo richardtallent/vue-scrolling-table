@@ -7,6 +7,9 @@
 		<thead name="thead" ref="thead"
 			:class="{ scrollsync: syncHeaderScroll }"
 			:style="syncHeaderScroll && scrollVertical ? stubScrollbarStyle : ''"
+			@dragenter="onDragEnterHeader"
+			@dragover.prevent="onDragOverHeader"
+			@drop="onDropHeader"
 			><slot name="thead"/></thead>
 		<tbody name="tbody" ref="tbody"
 			@scroll="updateSyncedScroll"><slot name="tbody"/></tbody>
@@ -75,6 +78,15 @@ export default {
 		setColors() {
 			const s = this.$refs.table.style
 			s.setProperty("--dead-area-color", this.deadAreaColor)
+		},
+		onDragEnterHeader(e) {
+			this.emit("header-dragenter", e)
+		},
+		onDragOverHeader(e) {
+			this.emit("header-dragover", e)
+		},
+		onDropHeader(e) {
+			this.emit("header-drop", e)
 		},
 	},
 }

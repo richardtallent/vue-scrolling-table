@@ -1,8 +1,7 @@
 {
 	"name": "vue-scrolling-table",
-	"version": "0.2.0",
-	"description":
-		"A Vue component to create tables with vertical and horizontal scrolling. Flexbox-based.",
+	"version": "0.2.1",
+	"description": "A Vue component to create tables with vertical and horizontal scrolling. Flexbox-based.",
 	"author": "richardtallent <richard@tallent.us>",
 	"main": "dist/vue-scrolling-table.js",
 	"license": "MIT",
@@ -51,7 +50,11 @@
 		"node": ">= 6.0.0",
 		"npm": ">= 5.0.0"
 	},
-	"browserslist": ["> 1%", "last 2 versions", "not ie < 11"],
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie < 11"
+	],
 	"prettier": {
 		"useTabs": true,
 		"semi": false,
@@ -75,14 +78,19 @@
 		"globals": {
 			"Vue": true
 		},
-		"extends": ["eslint:recommended", "plugin:vue/recommended"],
+		"extends": [
+			"eslint:recommended",
+			"plugin:vue/recommended"
+		],
 		"rules": {
 			"vue/html-indent": "tab",
 			"vue/max-attributes-per-line": 3,
 			"no-console": "warn"
 		}
 	},
-	"eslintIgnore": ["node_modules/*.*"],
+	"eslintIgnore": [
+		"node_modules/*.*"
+	],
 	"postcss": {
 		"plugins": {
 			"autoprefixer": {}

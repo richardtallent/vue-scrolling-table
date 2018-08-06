@@ -115,6 +115,16 @@ browser doesn't display a scrollbar). Since this is fired based on the DOM `scro
 same usual caveat applies: this is a high-frequency event, so try not to do anything complicated
 in response (if you need to do so, debounce the events and/or use `requestAnimationFrame`).
 
+A `header-dragover` event is emitted as the user drags a draggable element around over the `THEAD`
+element. This may be needed to, for example, implement resizable columns. The `preventDefault`
+call is made automatically by this component.
+
+A `header-dragenter` event is emitted when the user drags a draggable element into the `THEAD`
+element. This may be needed to, for example, implement resizable columns.
+
+A `header-drop` event is emitted when the user drops a draggable element on the `THEAD` element.
+This may be needed to, for example, implement resizable columns.
+
 ## Browser Compatibility
 This component has been tested on IE11, and the latest versions of Chrome (Mac and Windows,
 Firefox, Safari, and iOS Safari. I've also successfully tested it with a slower, mobile Android
@@ -194,3 +204,4 @@ npm run build
 | 2017.12.24 | 0.1.1   | Patch based on sample app deveopment                                                       |
 | 2017.12.24 | 0.1.2   | Fix: old version went to npm                                                               |
 | 2017.12.25 | 0.2.0   | Added lots of options, updated README, fixed some display bugs when less data shown.       |
+| 2018.08-06 | 0.2.1   | Added `header-dragenter`, `header-dragover`, and `header-drop` events.						|
