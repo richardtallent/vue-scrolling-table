@@ -12,7 +12,7 @@
 			@drop="onDropHeader"
 			><slot name="thead"/></thead>
 		<tbody name="tbody" ref="tbody"
-			@scroll="updateSyncedScroll"><slot name="tbody"/></tbody>
+			@scroll.passive="updateSyncedScroll"><slot name="tbody"/></tbody>
 		<tfoot name="tfoot" ref="tfoot"
 			v-if="includeFooter"
 			:class="{ scrollsync: syncFooterScroll }"
