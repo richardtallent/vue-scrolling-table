@@ -80,13 +80,13 @@ export default {
 			s.setProperty("--dead-area-color", this.deadAreaColor)
 		},
 		onDragEnterHeader(e) {
-			this.emit("header-dragenter", e)
+			this.$emit("header-dragenter", e)
 		},
 		onDragOverHeader(e) {
-			this.emit("header-dragover", e)
+			this.$emit("header-dragover", e)
 		},
 		onDropHeader(e) {
-			this.emit("header-drop", e)
+			this.$emit("header-drop", e)
 		},
 	},
 }

@@ -205,3 +205,4 @@ npm run build
 | 2017.12.24 | 0.1.2   | Fix: old version went to npm                                                               |
 | 2017.12.25 | 0.2.0   | Added lots of options, updated README, fixed some display bugs when less data shown.       |
 | 2018.08-06 | 0.2.1   | Added `header-dragenter`, `header-dragover`, and `header-drop` events.						|
+| 2018.08-06 | 0.2.2   | $emit. *sigh*																				|

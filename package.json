@@ -1,6 +1,6 @@
 {
 	"name": "vue-scrolling-table",
-	"version": "0.2.1",
+	"version": "0.2.2",
 	"description": "A Vue component to create tables with vertical and horizontal scrolling. Flexbox-based.",
 	"author": "richardtallent <richard@tallent.us>",
 	"main": "dist/vue-scrolling-table.js",
