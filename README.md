@@ -45,16 +45,16 @@ https://codepen.io/richardtallent/pen/rpWBQK
 <vue-scrolling-table>
   <template slot="thead">
     <tr>
-	  <th v-for="col in columns" 
-		:class="col.cssClasses"
-		:key="col.id">{{ col.title }}</th>
+      <th v-for="col in columns"
+        :class="col.cssClasses"
+        :key="col.id">{{ col.title }}</th>
     </tr>
   </template>
   <template slot="tbody">
     <tr v-for="item in items" :key="item.id">
-	  <td v-for="col in columns"
-		:class="col.cssClasses"
-		:key="col.id">{{ item[col.id] }}</td>
+    <td v-for="col in columns"
+      :class="col.cssClasses"
+      :key="col.id">{{ item[col.id] }}</td>
     </tr>
   </template>
 </vue-scrolling-table>
@@ -74,10 +74,6 @@ otherwise the element will not be rendered.
 
 ### syncHeaderScroll
 Boolean, defaults to `true`. Set to `false` if you *do not* want your header to scroll automatically
-when the user scrolls the body horizontally.
-
-### syncHeaderScroll
-Boolean, defaults to `true`. Set to `false` if you *do not* want your footer to scroll automatically
 when the user scrolls the body horizontally.
 
 ### scrollHorizontal
