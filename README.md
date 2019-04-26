@@ -45,16 +45,16 @@ https://codepen.io/richardtallent/pen/rpWBQK
 <vue-scrolling-table>
   <template slot="thead">
     <tr>
-	  <th v-for="col in columns"
-		:class="col.cssClasses"
-		:key="col.id">{{ col.title }}</th>
+      <th v-for="col in columns"
+        :class="col.cssClasses"
+        :key="col.id">{{ col.title }}</th>
     </tr>
   </template>
   <template slot="tbody">
     <tr v-for="item in items" :key="item.id">
-	  <td v-for="col in columns"
-		:class="col.cssClasses"
-		:key="col.id">{{ item[col.id] }}</td>
+    <td v-for="col in columns"
+      :class="col.cssClasses"
+      :key="col.id">{{ item[col.id] }}</td>
     </tr>
   </template>
 </vue-scrolling-table>
