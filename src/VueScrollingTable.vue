@@ -1,26 +1,25 @@
 <template>
-	<table ref="table"
-		class="scrolling"
-		:class="{ scrolly: scrollVertical, scrollx: scrollHorizontal }"
-		:style="tableStyle"
-		>
-		<thead name="thead" ref="thead"
+	<table ref="table" class="scrolling" :class="{ scrolly: scrollVertical, scrollx: scrollHorizontal }" :style="tableStyle">
+		<thead
+			name="thead"
+			ref="thead"
 			:class="{ scrollsync: syncHeaderScroll }"
 			:style="syncHeaderScroll && scrollVertical ? stubScrollbarStyle : ''"
 			@dragenter="onDragEnterHeader"
 			@dragover.prevent="onDragOverHeader"
 			@drop="onDropHeader"
-			><slot name="thead"/></thead>
-		<tbody name="tbody" ref="tbody"
-			@scroll.passive="updateSyncedScroll"><slot name="tbody"/></tbody>
-		<tfoot name="tfoot" ref="tfoot"
-			v-if="includeFooter"
-			:class="{ scrollsync: syncFooterScroll }"
-			:style="syncFooterScroll && scrollVertical ? stubScrollbarStyle : ''"
-			><slot name="tfoot"/></tfoot>
+		>
+			<slot name="thead" />
+		</thead>
+		<tbody name="tbody" ref="tbody" @scroll.passive="updateSyncedScroll">
+			<slot name="tbody" />
+		</tbody>
+		<tfoot name="tfoot" ref="tfoot" v-if="includeFooter" :class="{ scrollsync: syncFooterScroll }" :style="syncFooterScroll && scrollVertical ? stubScrollbarStyle : ''">
+			<slot name="tfoot" />
+		</tfoot>
 	</table>
 </template>
-<script>
+<script lang="ts">
 export default {
 	name: "VueScrollingTable",
 	props: {
@@ -32,10 +31,10 @@ export default {
 		scrollVertical: { type: Boolean, required: false, default: true },
 	},
 	computed: {
-		tableStyle() {
+		tableStyle(): string {
 			return `background-color: ${this.deadAreaColor};`
 		},
-		stubScrollbarStyle() {
+		stubScrollbarStyle(): string {
 			return `background-color: ${this.deadAreaColor};
 				scrollbar-base-color: ${this.deadAreaColor};
 				scrollbar-face-color: ${this.deadAreaColor};
@@ -51,23 +50,24 @@ export default {
 			this.setColors()
 		},
 	},
-	mounted: function() {
+	mounted: function () {
 		this.setColors()
 		this.updateSyncedScroll()
 	},
 	methods: {
 		updateSyncedScroll() {
-			const b = this.$refs.tbody
+			const b = this.$refs.tbody as HTMLElement
 			const l = b.scrollLeft
 			if (this.scrollHorizontal) {
 				if (this.syncHeaderScroll) {
-					const h = this.$refs.thead
+					const h = this.$refs.thead as HTMLElement
 					if (h.scrollLeft !== l) {
 						h.scrollLeft = l
 					}
 				}
 				if (this.includeFooter && this.syncFooterScroll) {
-					const f = this.$refs.tfoot
+					const f = this.$refs.tfoot as HTMLElement
+					f.style
 					if (f.scrollLeft !== l) {
 						f.scrollLeft = l
 					}
@@ -76,16 +76,17 @@ export default {
 			this.$emit("scroll", b.scrollTop, l, b.scrollHeight, b.scrollWidth)
 		},
 		setColors() {
-			const s = this.$refs.table.style
+			const t = this.$refs.table as HTMLElement
+			const s = t.style as CSSStyleDeclaration
 			s.setProperty("--dead-area-color", this.deadAreaColor)
 		},
-		onDragEnterHeader(e) {
+		onDragEnterHeader(e: DragEvent) {
 			this.$emit("header-dragenter", e)
 		},
-		onDragOverHeader(e) {
+		onDragOverHeader(e: DragEvent) {
 			this.$emit("header-dragover", e)
 		},
-		onDropHeader(e) {
+		onDropHeader(e: DragEvent) {
 			this.$emit("header-drop", e)
 		},
 	},
@@ -100,8 +101,10 @@ table.scrolling {
 	height: 100%;
 	border-collapse: collapse;
 	overflow: hidden;
+
 	/* Use this to create a "dead" area color if table is too wide for cells */
 	background-color: #ccc;
+
 	--dead-area-color: #ccc;
 }
 
@@ -110,6 +113,7 @@ table.scrolling tfoot {
 	/* Grow automatically to fit content, don't shrink it proportionately to the body. */
 	flex: 0 0 auto;
 	display: block;
+
 	/* Horizontal scrolling, when allowed, is controlled by JS, not a scroll bar. */
 	overflow: hidden;
 }
@@ -117,6 +121,7 @@ table.scrolling tfoot {
 table.scrolling tbody {
 	display: block;
 	flex: 1 1 auto;
+
 	/* Disable all scrolling by default */
 	overflow: hidden;
 }
@@ -143,6 +148,7 @@ table.scrolling.scrolly thead.scrollsync::-webkit-scrollbar {
 	display: block;
 	background-color: var(--dead-area-color);
 }
+
 table.scrolling.scrolly thead.scrollsync::-webkit-scrollbar-track {
 	background-color: var(--dead-area-color);
 }

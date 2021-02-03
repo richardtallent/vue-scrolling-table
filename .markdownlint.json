@@ -1,0 +1,10 @@
+{
+	"no-hard-tabs": {
+		"code_blocks": false
+	},
+	"line-length": {
+		"line_length": 100,
+		"tables": false
+	},
+	"no-bare-urls": false
+}

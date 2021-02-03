@@ -1,99 +1,89 @@
 {
 	"name": "vue-scrolling-table",
-	"version": "0.2.2",
+	"version": "1.0.2",
 	"description": "A Vue component to create tables with vertical and horizontal scrolling. Flexbox-based.",
 	"author": "richardtallent <richard@tallent.us>",
-	"main": "dist/vue-scrolling-table.js",
 	"license": "MIT",
 	"repository": "https://github.com/richardtallent/vue-scrolling-table",
 	"homepage": "https://tallent.us/vue-scrolling-table/",
 	"private": false,
 	"scripts": {
-		"build": "rimraf ./dist && webpack --config ./webpack.config.js"
+		"dev": "vite",
+		"devs": "vite --https",
+		"builddx": "vuedx-typecheck . && vite build",
+		"build": "vite build"
 	},
-	"dependencies": {},
-	"devDependencies": {
-		"autoprefixer": "^7.1.6",
-		"babel-core": "^6.26.0",
-		"babel-eslint": "^8.0.2",
-		"babel-loader": "^7.1.2",
-		"babel-plugin-transform-runtime": "^6.23.0",
-		"babel-polyfill": "^6.26.0",
-		"babel-preset-env": "^1.6.1",
-		"babel-register": "^6.26.0",
-		"copy-webpack-plugin": "^4.2.3",
-		"css-loader": "^0.28.7",
-		"eslint": "^4.13.1",
-		"eslint-friendly-formatter": "^3.0.0",
-		"eslint-import-resolver-webpack": "^0.8.3",
-		"eslint-loader": "^1.9.0",
-		"eslint-plugin-html": "^4.0.1",
-		"eslint-plugin-import": "^2.8.0",
-		"eslint-plugin-vue": "^4.0.0-beta.0",
-		"extract-text-webpack-plugin": "^3.0.0",
-		"file-loader": "^1.1.4",
-		"friendly-errors-webpack-plugin": "^1.6.1",
-		"html-webpack-plugin": "^2.30.1",
-		"optimize-css-assets-webpack-plugin": "^3.2.0",
-		"rimraf": "^2.6.2",
-		"stylelint": "^8.4.0",
-		"stylelint-config-standard": "^18.0.0",
-		"url-loader": "^0.6.2",
-		"vue": "^2.5.11",
-		"vue-loader": "^13.6.0",
-		"vue-style-loader": "^3.0.3",
-		"vue-template-compiler": "^2.5.11",
-		"webpack": "^3.10.0",
-		"webpack-merge": "^4.1.1"
-	},
-	"engines": {
-		"node": ">= 6.0.0",
-		"npm": ">= 5.0.0"
-	},
-	"browserslist": [
-		"> 1%",
-		"last 2 versions",
-		"not ie < 11"
+	"files": [
+		"dist"
 	],
+	"main": "./dist/vue-scrolling-table.umd.js",
+	"module": "./dist/vue-scrolling-table.es.js",
+	"exports": {
+		".": {
+			"import": "./dist/vue-scrolling-table.es.js",
+			"require": "./dist/vue-scrolling-table.umd.js"
+		}
+	},
+	"dependencies": {
+		"vue": "^3.0.5"
+	},
+	"devDependencies": {
+		"@typescript-eslint/parser": "^4.14.2",
+		"@vitejs/plugin-vue": "^1.1.4",
+		"@vue/compiler-sfc": "^3.0.5",
+		"@vuedx/typecheck": "^0.4.1",
+		"@vuedx/typescript-plugin-vue": "^0.4.1",
+		"autoprefixer": "^10.2.4",
+		"eslint": "^7.19.0",
+		"eslint-config-tabsanity": "^2.0.0",
+		"eslint-plugin-prettier": "^3.3.1",
+		"eslint-plugin-vue": "^7.5.0",
+		"postcss": "^8.2.4",
+		"prettier": "^2.2.1",
+		"stylelint": "^13.9.0",
+		"stylelint-config-standard": "^20.0.0",
+		"typescript": "^4.1.3",
+		"vite": "^2.0.0-beta.62"
+	},
+	"eslintConfig": {
+		"extends": [
+			"plugin:vue/vue3-essential",
+			"eslint:recommended",
+			"@vue/prettier",
+			"tabsanity"
+		],
+		"parserOptions": {
+			"parser": "@typescript-eslint/parser"
+		}
+	},
 	"prettier": {
 		"useTabs": true,
 		"semi": false,
 		"singleQuote": false,
 		"bracketSpacing": true,
-		"trailingComma": "es5"
+		"trailingComma": "es5",
+		"printWidth": 180
 	},
-	"stylelint": {
-		"extends": "stylelint-config-standard",
-		"rules": {
-			"indentation": "tab"
-		}
-	},
-	"eslintConfig": {
-		"env": {
-			"browser": true,
-			"es6": true,
-			"amd": true,
-			"node": true
-		},
-		"globals": {
-			"Vue": true
-		},
-		"extends": [
-			"eslint:recommended",
-			"plugin:vue/recommended"
-		],
-		"rules": {
-			"vue/html-indent": "tab",
-			"vue/max-attributes-per-line": 3,
-			"no-console": "warn"
-		}
-	},
-	"eslintIgnore": [
-		"node_modules/*.*"
-	],
 	"postcss": {
 		"plugins": {
 			"autoprefixer": {}
 		}
-	}
+	},
+	"stylelint": {
+		"extends": "stylelint-config-standard",
+		"exclude": [
+			"dist"
+		],
+		"rules": {
+			"indentation": "tab",
+			"declaration-block-trailing-semicolon": null,
+			"no-descending-specificity": null
+		}
+	},
+	"browserslist": [
+		"> 1%",
+		"last 2 versions",
+		"not ie < 11",
+		"maintained node versions"
+	]
 }
