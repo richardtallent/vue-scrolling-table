@@ -50,7 +50,7 @@ export default {
 			this.setColors()
 		},
 	},
-	mounted: function () {
+	mounted() {
 		this.setColors()
 		this.updateSyncedScroll()
 	},

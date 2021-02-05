@@ -228,3 +228,4 @@ npm run build
 | 2018.08-06 | 0.2.2   | $emit. _sigh_                                                                        |
 | 2020.02.02 | 1.0.0   | Upgraded to Vue 3, Vite, TypeScript. BREAKING, DO NOT UPGRADE FOR VUE 2.x.           |
 | 2020.02.02 | 1.0.1   | Fix CSS export?                                                                      |
+| 2020.02.05 | 1.0.3   | Gave up on TS. Fix CSS export?                                                       |
