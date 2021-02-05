@@ -5,15 +5,12 @@
 		"moduleResolution": "node",
 		"strict": true,
 		"sourceMap": true,
-		"lib": ["esnext", "dom", "dom.iterable", "scripthost"],
+		"lib": ["esnext", "dom"],
 		"types": ["vite/client"],
 		"importHelpers": true,
 		"esModuleInterop": true,
 		"declaration": true,
 		"baseUrl": ".",
-		"paths": {
-			"@/*": ["src/*"]
-		},
 		"noUnusedLocals": true,
 		"noUnusedParameters": true
 	},

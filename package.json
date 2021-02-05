@@ -16,17 +16,17 @@
 	"files": [
 		"dist"
 	],
-	"scripts": {
-		"dev": "vite",
-		"devs": "vite --https",
-		"builddx": "vuedx-typecheck . && vite build",
-		"build": "vite build"
-	},
 	"exports": {
 		".": {
 			"import": "./dist/vue-scrolling-table.es.js",
 			"require": "./dist/vue-scrolling-table.umd.js"
 		}
+	},
+	"scripts": {
+		"dev": "vite",
+		"devs": "vite --https",
+		"builddx": "vuedx-typecheck . && vite build",
+		"build": "vite build"
 	},
 	"dependencies": {
 		"vue": "^3.0.5"

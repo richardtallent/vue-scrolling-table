@@ -4,10 +4,9 @@ const path = require("path")
 module.exports = {
 	plugins: [vue()],
 	build: {
-		cssCodeSplit: false,
 		sourcemap: true,
 		lib: {
-			entry: path.resolve(__dirname, "src"),
+			entry: path.resolve(__dirname, "lib/main.ts"),
 			name: "VueScrollingTable",
 		},
 		rollupOptions: {
