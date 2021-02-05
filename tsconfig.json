@@ -17,6 +17,6 @@
 		"noUnusedLocals": true,
 		"noUnusedParameters": true
 	},
-	"include": ["src/**/*.ts", "src/**/*.vue"],
+	"include": ["lib/*.ts", "src/**/*.ts", "src/**/*.vue"],
 	"exclude": ["node_modules", "dist"]
 }
