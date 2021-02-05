@@ -4,20 +4,24 @@
 	"description": "A Vue component to create tables with vertical and horizontal scrolling. Flexbox-based.",
 	"author": "richardtallent <richard@tallent.us>",
 	"license": "MIT",
-	"repository": "https://github.com/richardtallent/vue-scrolling-table",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/richardtallent/vue-scrolling-table"
+	},
 	"homepage": "https://tallent.us/vue-scrolling-table/",
 	"private": false,
+	"main": "./dist/vue-scrolling-table.umd.js",
+	"module": "./dist/vue-scrolling-table.es.js",
+	"types": "./dist/vue-scrolling-table.d.ts",
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"dev": "vite",
 		"devs": "vite --https",
 		"builddx": "vuedx-typecheck . && vite build",
 		"build": "vite build"
 	},
-	"files": [
-		"dist"
-	],
-	"main": "./dist/vue-scrolling-table.umd.js",
-	"module": "./dist/vue-scrolling-table.es.js",
 	"exports": {
 		".": {
 			"import": "./dist/vue-scrolling-table.es.js",

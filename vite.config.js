@@ -7,7 +7,7 @@ module.exports = {
 		cssCodeSplit: false,
 		sourcemap: true,
 		lib: {
-			entry: path.resolve(__dirname, "lib/main.ts"),
+			entry: path.resolve(__dirname, "src"),
 			name: "VueScrollingTable",
 		},
 		rollupOptions: {
