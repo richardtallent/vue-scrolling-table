@@ -55,7 +55,7 @@ export default {
 		this.updateSyncedScroll()
 	},
 	methods: {
-		updateSyncedScroll() {
+		updateSyncedScroll(): void {
 			const b = this.$refs.tbody as HTMLElement
 			const l = b.scrollLeft
 			if (this.scrollHorizontal) {
@@ -75,18 +75,18 @@ export default {
 			}
 			this.$emit("scroll", b.scrollTop, l, b.scrollHeight, b.scrollWidth)
 		},
-		setColors() {
+		setColors(): void {
 			const t = this.$refs.table as HTMLElement
 			const s = t.style as CSSStyleDeclaration
 			s.setProperty("--dead-area-color", this.deadAreaColor)
 		},
-		onDragEnterHeader(e: DragEvent) {
+		onDragEnterHeader(e: DragEvent): void {
 			this.$emit("header-dragenter", e)
 		},
-		onDragOverHeader(e: DragEvent) {
+		onDragOverHeader(e: DragEvent): void {
 			this.$emit("header-dragover", e)
 		},
-		onDropHeader(e: DragEvent) {
+		onDropHeader(e: DragEvent): void {
 			this.$emit("header-drop", e)
 		},
 	},
