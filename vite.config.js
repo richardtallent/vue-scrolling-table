@@ -5,7 +5,7 @@ const path = require("path")
 module.exports = {
 	plugins: [vue()],
 	build: {
-		sourcemap: true,
+		sourcemap: false,
 		lib: {
 			entry: path.resolve(__dirname, "lib/main.ts"),
 			name: "VueScrollingTable",
