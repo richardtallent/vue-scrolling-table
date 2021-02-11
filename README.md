@@ -48,7 +48,7 @@ In your `main.js`, if you want to globally register the component and its CSS:
 
 ```JavaScript
 import VueScrollingTable from "vue-scrolling-table"
-import "vue-scrolling-table/dist/style.css"
+import "/node_modules/vue-scrolling-table/dist/style.css"
 //...
 createApp(App)
 	.component(VueScrollingTable.name, VueScrollingTable)
