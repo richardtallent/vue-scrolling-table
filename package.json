@@ -1,7 +1,7 @@
 {
 	"name": "vue-scrolling-table",
-	"version": "1.0.3",
-	"description": "A Vue component to create tables with vertical and horizontal scrolling. Flexbox-based.",
+	"version": "1.0.4",
+	"description": "A Vue 3 component to create tables with vertical and horizontal scrolling. Flexbox-based.",
 	"author": "richardtallent <richard@tallent.us>",
 	"license": "MIT",
 	"repository": {
@@ -13,6 +13,7 @@
 	"main": "./dist/vue-scrolling-table.umd.js",
 	"module": "./dist/vue-scrolling-table.es.js",
 	"types": "./dist/vue-scrolling-table.d.ts",
+	"style": "./dist/style.css",
 	"files": [
 		"dist"
 	],
@@ -32,7 +33,7 @@
 		"vue": "^3.0.5"
 	},
 	"devDependencies": {
-		"@typescript-eslint/parser": "^4.14.2",
+		"@typescript-eslint/parser": "^4.15.0",
 		"@vitejs/plugin-vue": "^1.1.4",
 		"@vue/compiler-sfc": "^3.0.5",
 		"@vuedx/typecheck": "^0.4.1",
@@ -42,13 +43,13 @@
 		"eslint-config-tabsanity": "^2.0.0",
 		"eslint-plugin-prettier": "^3.3.1",
 		"eslint-plugin-vue": "^7.5.0",
-		"postcss": "^8.2.4",
+		"postcss": "^8.2.6",
 		"prettier": "^2.2.1",
 		"rollup-plugin-typescript2": "^0.29.0",
 		"stylelint": "^13.9.0",
 		"stylelint-config-standard": "^20.0.0",
-		"typescript": "^4.1.3",
-		"vite": "^2.0.0-beta.64"
+		"typescript": "^4.1.5",
+		"vite": "^2.0.0-beta.67"
 	},
 	"eslintConfig": {
 		"extends": [

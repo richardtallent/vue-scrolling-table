@@ -44,16 +44,29 @@ https://codepen.io/richardtallent/pen/rpWBQK
 
 ## Example Usage
 
+In your `main.js`, if you want to globally register the component and its CSS:
+
+```JavaScript
+import VueScrollingTable from "vue-scrolling-table"
+import "vue-scrolling-table/dist/style.css"
+//...
+createApp(App)
+	.component(VueScrollingTable.name, VueScrollingTable)
+	.mount("#app")
+```
+
+In your template:
+
 ```HTML
 <vue-scrolling-table>
-  <template slot="thead">
+  <template #thead>
     <tr>
 	  <th v-for="col in columns"
 		:class="col.cssClasses"
 		:key="col.id">{{ col.title }}</th>
     </tr>
   </template>
-  <template slot="tbody">
+  <template #tbody>
     <tr v-for="item in items" :key="item.id">
 	  <td v-for="col in columns"
 		:class="col.cssClasses"
@@ -141,11 +154,8 @@ This may be needed to, for example, implement resizable columns.
 
 ## Browser Compatibility
 
-This component has been tested on IE11, and the latest versions of Chrome (Mac and Windows,
-Firefox, Safari, and iOS Safari. I've also successfully tested it with a slower, mobile Android
-tablet running the Silk browser, it works fine there as well other than some lag in the headers
-keeping up with horizontal scrolling of the body. I have no other Android devices or browsers to
-test.
+This component is compatible with modern browsers. It may be compatible with older browsers, but
+I don't test on them.
 
 ## Slot Markup and Styling Requirements
 
@@ -200,7 +210,7 @@ for the component. Some features I'm considering:
 - [ ] Get rid of the need for the includeFooter prop.
 - [x] Option to disable/enable scrolling in either direction.
 - [ ] Avoid creating extra block on right of header if browser doesn't show scroll bars.
-- [ ] Add TypeScript declarations (anyone know how to make Vite do this on build?)
+- [x] Add TypeScript declarations (anyone know how to make Vite do this on build?)
 
 I'm open to other ideas, as long as they don't limit the flexibility of using slots for
 the header, body, and footer. But if someone wants to _build_ a data grid component that
@@ -229,3 +239,4 @@ npm run build
 | 2020.02.02 | 1.0.0   | Upgraded to Vue 3, Vite, TypeScript. BREAKING, DO NOT UPGRADE FOR VUE 2.x.           |
 | 2020.02.02 | 1.0.1   | Fix CSS export?                                                                      |
 | 2020.02.05 | 1.0.3   | Gave up on TS. Fix CSS export?                                                       |
+| 2020.02.10 | 1.0.4   | TS Fixed. CSS injection is not automatic for Vite, documented this.                  |

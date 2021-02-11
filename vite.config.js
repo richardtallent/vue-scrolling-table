@@ -3,16 +3,18 @@ import typescript from "rollup-plugin-typescript2"
 const path = require("path")
 
 module.exports = {
-	plugins: [vue()],
+	// ESBuild doesn't emit typescript declarations, so use typescript2 instead
+	plugins: [vue(), typescript()],
+	esbuild: false,
+
 	build: {
 		sourcemap: false,
 		lib: {
 			entry: path.resolve(__dirname, "lib/main.ts"),
 			name: "VueScrollingTable",
-			esbuild: false,
+			manifest: true,
 		},
 		rollupOptions: {
-			plugins: [typescript()],
 			// make sure to externalize deps that shouldn't be bundled into your library
 			external: ["vue"],
 			output: {
