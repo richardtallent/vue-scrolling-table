@@ -1,6 +1,6 @@
 {
 	"name": "vue-scrolling-table",
-	"version": "1.0.4",
+	"version": "2.0.0",
 	"description": "A Vue 3 component to create tables with vertical and horizontal scrolling. Flexbox-based.",
 	"author": "richardtallent <richard@tallent.us>",
 	"license": "MIT",
@@ -26,30 +26,27 @@
 	"scripts": {
 		"dev": "vite",
 		"devs": "vite --https",
-		"builddx": "vuedx-typecheck . && vite build",
 		"build": "vite build"
 	},
 	"dependencies": {
-		"vue": "^3.0.5"
+		"vue": "^3.2.31"
 	},
 	"devDependencies": {
-		"@typescript-eslint/parser": "^4.15.0",
-		"@vitejs/plugin-vue": "^1.1.4",
-		"@vue/compiler-sfc": "^3.0.5",
-		"@vuedx/typecheck": "^0.4.1",
-		"@vuedx/typescript-plugin-vue": "^0.4.1",
-		"autoprefixer": "^10.2.4",
-		"eslint": "^7.19.0",
+		"@typescript-eslint/parser": "^5.14.0",
+		"@vitejs/plugin-vue": "^2.2.4",
+		"@vue/compiler-sfc": "^3.2.31",
+		"autoprefixer": "^10.4.2",
+		"eslint": "^8.11.0",
 		"eslint-config-tabsanity": "^2.0.0",
-		"eslint-plugin-prettier": "^3.3.1",
-		"eslint-plugin-vue": "^7.5.0",
-		"postcss": "^8.2.6",
-		"prettier": "^2.2.1",
-		"rollup-plugin-typescript2": "^0.29.0",
-		"stylelint": "^13.9.0",
-		"stylelint-config-standard": "^20.0.0",
-		"typescript": "^4.1.5",
-		"vite": "^2.0.0-beta.67"
+		"eslint-plugin-prettier": "^4.0.0",
+		"eslint-plugin-vue": "^8.5.0",
+		"postcss": "^8.4.8",
+		"prettier": "^2.5.1",
+		"rollup-plugin-typescript2": "^0.31.2",
+		"stylelint": "^14.5.3",
+		"stylelint-config-standard": "^25.0.0",
+		"typescript": "^4.6.2",
+		"vite": "^2.8.6"
 	},
 	"eslintConfig": {
 		"extends": [

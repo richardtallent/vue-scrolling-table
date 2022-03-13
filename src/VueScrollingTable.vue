@@ -1,10 +1,9 @@
 <template>
-	<table ref="table" class="scrolling" :class="{ scrolly: scrollVertical, scrollx: scrollHorizontal }" :style="tableStyle">
+	<table ref="table" class="scrolling" :class="{ scrolly: scrollVertical, scrollx: scrollHorizontal }">
 		<thead
 			name="thead"
 			ref="thead"
-			:class="{ scrollsync: syncHeaderScroll }"
-			:style="syncHeaderScroll && scrollVertical ? stubScrollbarStyle : ''"
+			:class="{ scrollsync: syncHeaderScroll, 'scroll-vertical': scrollVertical }"
 			@dragenter="onDragEnterHeader"
 			@dragover.prevent="onDragOverHeader"
 			@drop="onDropHeader"
@@ -14,83 +13,50 @@
 		<tbody name="tbody" ref="tbody" @scroll.passive="updateSyncedScroll">
 			<slot name="tbody" />
 		</tbody>
-		<tfoot name="tfoot" ref="tfoot" v-if="includeFooter" :class="{ scrollsync: syncFooterScroll }" :style="syncFooterScroll && scrollVertical ? stubScrollbarStyle : ''">
+		<tfoot name="tfoot" ref="tfoot" v-if="includeFooter" :class="{ scrollsync: syncFooterScroll, 'scroll-vertical': scrollVertical }">
 			<slot name="tfoot" />
 		</tfoot>
 	</table>
 </template>
-<script lang="ts">
-export default {
-	name: "VueScrollingTable",
-	props: {
-		deadAreaColor: { type: String, required: false, default: "#CCC" },
-		includeFooter: { type: Boolean, required: false, default: false },
-		syncHeaderScroll: { type: Boolean, required: false, default: true },
-		syncFooterScroll: { type: Boolean, required: false, default: true },
-		scrollHorizontal: { type: Boolean, required: false, default: true },
-		scrollVertical: { type: Boolean, required: false, default: true },
-	},
-	computed: {
-		tableStyle(): string {
-			return `background-color: ${this.deadAreaColor};`
-		},
-		stubScrollbarStyle(): string {
-			return `background-color: ${this.deadAreaColor};
-				scrollbar-base-color: ${this.deadAreaColor};
-				scrollbar-face-color: ${this.deadAreaColor};
-				scrollbar-highlight-color: ${this.deadAreaColor};
-				scrollbar-track-color: ${this.deadAreaColor};
-				scrollbar-arrow-color: ${this.deadAreaColor};
-				scrollbar-shadow-color: ${this.deadAreaColor};
-				scrollbar-darkshadow-color: ${this.deadAreaColor};`
-		},
-	},
-	watch: {
-		deadAreaColor() {
-			this.setColors()
-		},
-	},
-	mounted() {
-		this.setColors()
-		this.updateSyncedScroll()
-	},
-	methods: {
-		updateSyncedScroll(): void {
-			const b = this.$refs.tbody as HTMLElement
-			const l = b.scrollLeft
-			if (this.scrollHorizontal) {
-				if (this.syncHeaderScroll) {
-					const h = this.$refs.thead as HTMLElement
-					if (h.scrollLeft !== l) {
-						h.scrollLeft = l
-					}
-				}
-				if (this.includeFooter && this.syncFooterScroll) {
-					const f = this.$refs.tfoot as HTMLElement
-					f.style
-					if (f.scrollLeft !== l) {
-						f.scrollLeft = l
-					}
-				}
-			}
-			this.$emit("scroll", b.scrollTop, l, b.scrollHeight, b.scrollWidth)
-		},
-		setColors(): void {
-			const t = this.$refs.table as HTMLElement
-			const s = t.style as CSSStyleDeclaration
-			s.setProperty("--dead-area-color", this.deadAreaColor)
-		},
-		onDragEnterHeader(e: DragEvent): void {
-			this.$emit("header-dragenter", e)
-		},
-		onDragOverHeader(e: DragEvent): void {
-			this.$emit("header-dragover", e)
-		},
-		onDropHeader(e: DragEvent): void {
-			this.$emit("header-drop", e)
-		},
-	},
+<script setup lang="ts">
+import { onMounted, ref } from "vue"
+
+const props = defineProps({
+	deadAreaColor: { type: String, required: false, default: "#CCC" },
+	includeFooter: { type: Boolean, required: false, default: false },
+	syncHeaderScroll: { type: Boolean, required: false, default: true },
+	syncFooterScroll: { type: Boolean, required: false, default: true },
+	scrollHorizontal: { type: Boolean, required: false, default: true },
+	scrollVertical: { type: Boolean, required: false, default: true },
+})
+
+const emit = defineEmits(["header-dragenter", "header-dragover", "header-drop", "scroll"])
+
+const onDragEnterHeader = (e: DragEvent): void => emit("header-dragenter", e)
+const onDragOverHeader = (e: DragEvent): void => emit("header-dragover", e)
+const onDropHeader = (e: DragEvent): void => emit("header-drop", e)
+
+const table = ref(null)
+const tbody = ref(null)
+const thead = ref(null)
+const tfoot = ref(null)
+
+const updateSyncedScroll = (): void => {
+	const l = tbody.value.scrollLeft
+	if (props.scrollHorizontal) {
+		if (props.syncHeaderScroll && thead.value.scrollLeft !== l) {
+			thead.value.scrollLeft = l
+		}
+		if (props.includeFooter && props.syncFooterScroll && tfoot.value.scrollLeft !== l) {
+			tfoot.value.scrollLeft = l
+		}
+	}
+	emit("scroll", tbody.value.scrollTop, l, tbody.value.scrollHeight, tbody.value.scrollWidth)
 }
+
+onMounted(() => {
+	updateSyncedScroll()
+})
 </script>
 <style>
 table.scrolling {
@@ -101,16 +67,14 @@ table.scrolling {
 	height: 100%;
 	border-collapse: collapse;
 	overflow: hidden;
-
 	/* Use this to create a "dead" area color if table is too wide for cells */
-	background-color: #ccc;
-
-	--dead-area-color: #ccc;
+	--dead-area-color: v-bind(deadAreaColor);
+	background-color: var(--dead-area-color);
 }
 
 table.scrolling thead,
 table.scrolling tfoot {
-	/* Grow automatically to fit content, don't shrink it proportionately to the body. */
+	/* Fit content, don't shrink it proportionately to the body. */
 	flex: 0 0 auto;
 	display: block;
 
@@ -126,6 +90,11 @@ table.scrolling tbody {
 	overflow: hidden;
 }
 
+/* Turn on horizontal scrolling for the body only */
+table.scrolling.scrollx tbody {
+	overflow-x: scroll;
+}
+
 /* Turn on vertical scrolling for all elements so scroll bars take up the same space */
 table.scrolling.scrolly tbody,
 table.scrolling.scrolly thead.scrollsync,
@@ -133,9 +102,15 @@ table.scrolling.scrolly tfoot.scrollsync {
 	overflow-y: scroll;
 }
 
-/* Turn on horizontal scrolling for the body only */
-table.scrolling.scrollx tbody {
-	overflow-x: scroll;
+.scroll-vertical.scrollsync {
+	background-color: var(--dead-area-color);
+	scrollbar-base-color: var(--dead-area-color);
+	scrollbar-face-color: var(--dead-area-color);
+	scrollbar-highlight-color: var(--dead-area-color);
+	scrollbar-track-color: var(--dead-area-color);
+	scrollbar-arrow-color: var(--dead-area-color);
+	scrollbar-shadow-color: var(--dead-area-color);
+	scrollbar-darkshadow-color: var(--dead-area-color);
 }
 
 /*
@@ -153,16 +128,9 @@ table.scrolling.scrolly thead.scrollsync::-webkit-scrollbar-track {
 	background-color: var(--dead-area-color);
 }
 
-/* IE11 adds an extra tbody, have to hide it. */
-table.scrolling tbody:nth-child(3) {
-	display: none;
-}
-
 /* The one caveat to scrolling this way: a hard-set width is required. Can override in thead/tbody slot. */
 table.scrolling td,
 table.scrolling th {
-	border: 1px solid #ddd;
-
 	/* These must all be set the same in your overriding CSS */
 	width: 10em;
 	min-width: 10em;
@@ -173,11 +141,15 @@ table.scrolling th {
 	word-wrap: break-word;
 }
 
-table.scrolling td {
+/* Default formatting, easy to override. */
+
+:where(table.scrolling td) {
 	background-color: #fff;
+	border: 1px solid #ddd;
 }
 
-table.scrolling th {
+:where(table.scrolling th) {
 	background-color: #f7f7f7;
+	border: 1px solid #ddd;
 }
 </style>

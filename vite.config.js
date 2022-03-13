@@ -6,7 +6,6 @@ module.exports = {
 	// ESBuild doesn't emit typescript declarations, so use typescript2 instead
 	plugins: [vue(), typescript()],
 	esbuild: false,
-
 	build: {
 		sourcemap: false,
 		lib: {

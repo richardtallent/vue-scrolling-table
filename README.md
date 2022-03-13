@@ -240,3 +240,4 @@ npm run build
 | 2020.02.02 | 1.0.1   | Fix CSS export?                                                                      |
 | 2020.02.05 | 1.0.3   | Gave up on TS. Fix CSS export?                                                       |
 | 2020.02.10 | 1.0.4   | TS Fixed. CSS injection is not automatic for Vite, documented this.                  |
+| 2020.02.10 | 2.0.0   | Simplify implementation (requires Vue 3.2). Border/BG styles easier to override.     |
